@@ -25,8 +25,8 @@ def acessar_estoque():
 def adicionar_produto():
     global contador_de_ids
     print ("Vamos adicionar um novo produto ao estoque, para isso ensira algumas informações:")
-    sku_novo = str(input("Ensira o código inteiro no produto (SKU): "))
-    descricao_novo = str(input("Ensira a Descrição de seu produto: "))
+    sku_novo = str(input("Ensira o código interno do produto (SKU): "))
+    descricao_novo = str(input("Ensira a descrição detalhada de seu produto: "))
     preco_novo = float(input("Ensira o preço padrão do Produto (R$): "))
     quantidade_novo = int(input("Ensira a quantidade que estará disponível em estoque: "))
 
@@ -39,6 +39,42 @@ def adicionar_produto():
     else:
         print ("Houve um erro, tente novamente mais tarde")
     pause()
+
+def atualizar_produto():
+    id_para_alterar = input("Qual o ID do produto que deseja alterar?")
+    if id_para_alterar in estoque:
+        produto_para_alterar = estoque[id_para_alterar]
+        print("-----------------------------------------------------------------")
+        print("Produto Selecionado:")
+        print(f"ID: {id_para_alterar}")
+        for chave, valor in produto_para_alterar.items():  
+            print(f"{chave}:{valor}")
+        print ("O que deseja alterar?")
+        print ("1 - SKU")
+        print ("2 - Descrição")
+        print ("3 - Preço")
+        print ("4 - Quantidade")
+        print ("0 - Sair")
+        opcao_alterar = int(input("Digite a opção desejada aqui: "))
+        if opcao_alterar == 1:
+            valor_novo = str(input("Digite a nova SKU: "))
+            estoque[id_para_alterar]["SKU"] = valor_novo
+        elif opcao_alterar == 2:
+            valor_novo = str(input("Digite a nova Descrição: "))
+            estoque[id_para_alterar]["Descrição"] = valor_novo
+        elif opcao_alterar == 3:
+            valor_novo = float(input("Digite o novo preço (R$): "))
+            estoque[id_para_alterar]["Preço"] = valor_novo
+        elif opcao_alterar == 4:
+            valor_novo = str(input("Digite o valor novo da SKU:"))
+            estoque[id_para_alterar]["Quantidade"] = valor_novo
+        elif opcao_alterar == 0:
+            limpar_tela()
+            menu_selecionado()
+    else:
+        print("Produto não encontrado. ID inexistente.")
+
+    
 
 def excluir_produto():
     produto_excluir = str(input("Digite a ID do produto que deseja excluir: "))
@@ -72,6 +108,9 @@ def menu_selecionado(opcao_selecionada):
         print("---- Atualizar Produto Existente ----")
         print("-------------------------------------")
         acessar_estoque()
+        atualizar_produto()
+        pause()
+        limpar_tela()
     elif opcao_selecionada == 4:
         print("-------------------------------------")
         print("---------- Excluir Produto ----------")
@@ -79,7 +118,7 @@ def menu_selecionado(opcao_selecionada):
         acessar_estoque()
         excluir_produto()
         resposta = input ("Visualizar estoque atualizado? [s/n] ")
-        if resposta == 's':
+        if resposta.lower() == 's':
             acessar_estoque()
         pause()
         limpar_tela()
